@@ -1,6 +1,7 @@
 package gr.codehub.app;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class UI {
@@ -8,7 +9,8 @@ public class UI {
     public UserChoice menuInterface(){
         System.out.println("1. Add a media file  2. Remove a media file" +
                 "  3. Display media list  4. Delete All" +
-                "  5. Save media list  6. Load media list  0. Exit" +
+                "  5. Save media list  6. Load media list  7. Find by Name  8. Sort by fileType" +
+                "  9. Sort by Name  10. Get number of files  11. Get total size  0. Exit" +
                 "");
 
         int choice;
@@ -22,6 +24,11 @@ public class UI {
                 case 4: return UserChoice.DELETE_ALL;
                 case 5: return UserChoice.SAVE;
                 case 6: return UserChoice.LOAD;
+                case 7: return UserChoice.SEARCH_BY_FILENAME;
+                case 8: return UserChoice.SORT_BY_FILETYPE;
+                case 9: return UserChoice.SORT_BY_NAME;
+                case 10: return UserChoice.GET_NUMBER_FILES;
+                case 11: return UserChoice.GET_TOTAL_SIZE;
                 case 0: return UserChoice.EXIT;
                 default: return UserChoice.ERROR;
             }
@@ -84,6 +91,7 @@ public class UI {
 
         do {
             userChoice = menuInterface();
+            Scanner scanner = new Scanner(System.in);
             switch (userChoice){
                 case ADD_MEDIA:
                     MediaFile mediaFile = createMediaFile();
@@ -92,7 +100,6 @@ public class UI {
                     break;
                 case REMOVE_MEDIA:
                     System.out.println("Give an index to remove:");
-                    Scanner scanner = new Scanner(System.in);
                     int index = scanner.nextInt();
                     mediaList.removeMediaFile(index);
                     break;
@@ -107,6 +114,30 @@ public class UI {
                     break;
                 case LOAD:
                     mediaList.loadMediaList("MyMediaList.txt");
+                    break;
+                case SEARCH_BY_FILENAME:
+                    scanner = new Scanner(System.in);
+                    System.out.println("Type the name of the file you are searching for:");
+                    String input_name = scanner.next();
+                    MediaList foundFiles = mediaList.getFileByName(input_name);
+                    if (foundFiles == null)
+                        System.out.println("No such file found!");
+                    else
+                        foundFiles.displayMediaList();
+                    break;
+                case SORT_BY_FILETYPE:
+                    mediaList.sortByFileType();
+                    mediaList.displayMediaList();
+                    break;
+                case SORT_BY_NAME:
+                    mediaList.sortByFileName();
+                    mediaList.displayMediaList();
+                    break;
+                case GET_NUMBER_FILES:
+                    System.out.println("There are " + mediaList.getNumberOfFiles() + " entries.");
+                    break;
+                case GET_TOTAL_SIZE:
+                    System.out.println("Total size is: " + mediaList.getTotalListSize() + " MB");
                     break;
                 case ERROR:
                     System.out.println("Wrong input! Please give integer number.");

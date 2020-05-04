@@ -8,5 +8,10 @@ public enum UserChoice {
     DELETE_ALL,
     SAVE,
     LOAD,
+    SEARCH_BY_FILENAME,
+    SORT_BY_FILETYPE,
+    SORT_BY_NAME,
+    GET_NUMBER_FILES,
+    GET_TOTAL_SIZE,
     ERROR;
 }
